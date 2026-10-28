@@ -1,0 +1,31 @@
+.stage { position: absolute; inset: 0; overflow: hidden; pointer-events: none; user-select: none; }
+.artwork { display: block; width: 100%; max-width: none; height: 100%; }
+.curtain, .curtain .artwork { overflow: visible; }
+
+.depth {
+  transform-box: view-box;
+  transform: translate3d(
+    calc(var(--wave-scroll, 0) * var(--wave-depth-x)),
+    calc(var(--wave-scroll, 0) * var(--wave-depth-y)), 0
+  );
+}
+
+.layer {
+  transform-box: view-box;
+  animation: swell var(--wave-duration) ease-in-out infinite;
+  animation-delay: var(--wave-delay);
+  animation-play-state: var(--wave-play-state, paused);
+}
+.crest { --wave-duration: 10s; --wave-delay: -2s; --wave-x: 140px; --wave-y: 26px; }
+.navy { --wave-duration: 12s; --wave-delay: -5s; --wave-x: -120px; --wave-y: 32px; }
+.front { --wave-duration: 14s; --wave-delay: -3s; --wave-x: 160px; --wave-y: 24px; }
+.accent { --wave-duration: 16s; --wave-delay: -9s; --wave-x: -100px; --wave-y: 18px; }
+
+@keyframes swell {
+  0%, 100% { transform: translate3d(calc(-1 * var(--wave-x)), var(--wave-y), 0); }
+  50% { transform: translate3d(var(--wave-x), calc(-1 * var(--wave-y)), 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .depth { transform: none; }
+  .layer { animation: none; transform: none; }
+}

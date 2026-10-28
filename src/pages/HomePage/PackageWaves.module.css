@@ -1,0 +1,111 @@
+.stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.artwork {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+}
+
+.ribbon {
+  transform-box: fill-box;
+  transform-origin: 65% 55%;
+  animation: ribbon-surge var(--ribbon-duration) ease-in-out infinite;
+  animation-delay: var(--ribbon-delay);
+  animation-play-state: var(--package-wave-play-state, running);
+}
+
+.rear {
+  --ribbon-duration: 12s;
+  --ribbon-delay: -3s;
+  --ribbon-x: 24px;
+  --ribbon-y: 30px;
+  --ribbon-rotation: 1.8deg;
+}
+
+.cyan {
+  --ribbon-duration: 14s;
+  --ribbon-delay: -8s;
+  --ribbon-x: 30px;
+  --ribbon-y: 34px;
+  --ribbon-rotation: -1.5deg;
+}
+
+.fold {
+  --ribbon-duration: 16s;
+  --ribbon-delay: -5s;
+  --ribbon-x: 26px;
+  --ribbon-y: 28px;
+  --ribbon-rotation: 1.2deg;
+}
+
+.foreground {
+  --ribbon-duration: 18s;
+  --ribbon-delay: -12s;
+  --ribbon-x: 34px;
+  --ribbon-y: 36px;
+  --ribbon-rotation: -1.6deg;
+}
+
+/* Travel around a gentle swell instead of barely shifting back and forth.
+   Staggered phases keep the overlapping crests moving independently. */
+@keyframes ribbon-surge {
+  0%, 100% {
+    transform: translate3d(calc(-1 * var(--ribbon-x)), 0, 0)
+      rotate(calc(-1 * var(--ribbon-rotation))) scaleY(0.98);
+  }
+
+  25% {
+    transform: translate3d(0, calc(-1 * var(--ribbon-y)), 0)
+      rotate(0deg) scaleY(1.02);
+  }
+
+  50% {
+    transform: translate3d(var(--ribbon-x), 0, 0)
+      rotate(var(--ribbon-rotation)) scaleY(1.04);
+  }
+
+  75% {
+    transform: translate3d(0, var(--ribbon-y), 0)
+      rotate(0deg) scaleY(1.02);
+  }
+}
+
+@media (width < 768px) {
+  .rear {
+    --ribbon-duration: 14s;
+    --ribbon-x: 18px;
+    --ribbon-y: 26px;
+  }
+
+  .cyan {
+    --ribbon-duration: 16s;
+    --ribbon-x: 22px;
+    --ribbon-y: 30px;
+  }
+
+  .fold {
+    --ribbon-duration: 18s;
+    --ribbon-x: 20px;
+    --ribbon-y: 24px;
+  }
+
+  .foreground {
+    --ribbon-duration: 20s;
+    --ribbon-x: 24px;
+    --ribbon-y: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ribbon {
+    animation: none;
+    transform: none;
+  }
+}

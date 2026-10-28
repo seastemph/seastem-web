@@ -1,0 +1,40 @@
+.notice {
+  display: flex;
+  min-height: min(620px, calc(100svh - var(--header-height)));
+  padding: 100px 24px 120px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.eyebrow {
+  margin: 0 0 24px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+.notice h1 {
+  margin: 0;
+  font-size: clamp(40px, 5vw, 64px);
+  line-height: 1.1;
+  letter-spacing: -0.035em;
+}
+.description {
+  max-width: 520px;
+  margin: 28px 0 32px;
+  font-size: 19px;
+  line-height: 1.6;
+}
+.link {
+  display: inline-flex;
+  min-height: 52px;
+  align-items: center;
+  gap: 22px;
+  border-radius: 14px;
+  padding: 16px 24px;
+  color: white;
+  background: var(--color-ink);
+  text-decoration: none;
+}
+.link:hover { background: #1d5677; }

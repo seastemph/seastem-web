@@ -1,0 +1,63 @@
+.stage {
+  position: absolute;
+  z-index: 0;
+  inset: auto 0 -1px;
+  height: var(--hero-wave-height, 380px);
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+
+.track {
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: max(200%, 1920px);
+  height: 100%;
+  animation: flowLeft var(--wave-duration) linear infinite;
+  animation-delay: var(--wave-delay);
+  animation-play-state: var(--wave-play-state, running);
+}
+
+.track svg {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: 100%;
+}
+
+.back {
+  --wave-duration: 32s;
+  --wave-delay: -8s;
+  --wave-rest-offset: -12.5%;
+}
+
+.middle {
+  --wave-duration: 26s;
+  --wave-delay: -4s;
+  --wave-rest-offset: -7.6923%;
+}
+
+.front {
+  --wave-duration: 22s;
+  --wave-delay: -9s;
+  --wave-rest-offset: -20.4545%;
+}
+
+/* A track contains two identical periods; half its width is one seamless loop. */
+@keyframes flowLeft {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+
+@media (max-width: 767px) {
+  .back { --wave-duration: 48s; --wave-delay: -12s; }
+  .middle { --wave-duration: 39s; --wave-delay: -6s; }
+  .front { --wave-duration: 33s; --wave-delay: -13.5s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+    transform: translate3d(var(--wave-rest-offset), 0, 0);
+  }
+}

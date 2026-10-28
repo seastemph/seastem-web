@@ -1,0 +1,216 @@
+.section {
+  width: 100%;
+  padding-inline: 32px;
+  color: var(--color-ink, #103f5d);
+  scroll-margin-top: calc(var(--header-height, 137px) + 24px);
+}
+
+.inner {
+  width: 100%;
+  max-width: 880px;
+  margin-inline: auto;
+}
+
+.header {
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: .875rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: .15em;
+}
+
+.heading {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -.025em;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.previewLabel {
+  margin: 12px 0 0;
+  color: #285a77;
+  font-size: .8125rem;
+  line-height: 1.5;
+}
+
+.list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.item {
+  min-width: 0;
+  border: 1px solid #b9d4e3;
+  border-radius: 10px;
+  background: #f1f8fc;
+}
+
+.questionHeading {
+  min-width: 0;
+  margin: 0;
+}
+
+.questionButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  min-height: 64px;
+  padding: 18px 24px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--color-ink, #103f5d);
+  background: transparent;
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 160ms ease;
+}
+
+.questionButton > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.questionButton:hover {
+  background: #e6f2f9;
+}
+
+.questionButton[aria-expanded='true'] {
+  border-radius: 9px 9px 0 0;
+}
+
+.questionButton:focus-visible {
+  outline: 3px solid #006b9e;
+  outline-offset: -5px;
+}
+
+.toggleIcon {
+  flex: 0 0 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.verticalStroke {
+  transform-origin: 12px 12px;
+  transform: scaleY(1);
+  opacity: 1;
+  transition: transform 280ms ease, opacity 280ms ease;
+}
+
+.questionButton[aria-expanded='true'] .verticalStroke {
+  transform: scaleY(0);
+  opacity: 0;
+}
+
+/* Keep every answer mounted and measurable while the grid controls its height. */
+.answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 280ms ease, opacity 280ms ease;
+}
+
+.answer[data-open='true'] {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.answerClip {
+  min-height: 0;
+  overflow: hidden;
+  border-radius: 0 0 9px 9px;
+}
+
+.answerContent {
+  padding: 14px 24px 20px;
+  border-top: 1px solid #c9e0ed;
+  background: #e8f3fa;
+  color: var(--color-ink, #103f5d);
+  font-size: 1rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.answerContent p {
+  margin: 0;
+}
+
+@media (min-width: 1200px) and (max-height: 849px) {
+  .heading { font-size: 2.5rem; }
+  .header { margin-bottom: 16px; }
+  .eyebrow { margin-bottom: 8px; }
+  .previewLabel { margin-top: 8px; }
+  .list { gap: 10px; }
+}
+
+@media (max-width: 767px) {
+  .heading {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 599px) {
+  .section {
+    padding-inline: 24px;
+  }
+
+  .header {
+    margin-bottom: 20px;
+  }
+
+  .heading {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+
+  .eyebrow {
+    font-size: .8125rem;
+    letter-spacing: .12em;
+  }
+
+  .questionButton {
+    gap: 16px;
+    padding: 16px 20px;
+  }
+
+  .answerContent {
+    padding: 14px 20px 18px;
+  }
+}
+
+@media (max-width: 359px) {
+  .section {
+    padding-inline: 16px;
+  }
+
+  .questionButton {
+    padding-inline: 16px;
+  }
+
+  .answerContent {
+    padding-inline: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .questionButton,
+  .verticalStroke,
+  .answer {
+    transition: none;
+  }
+}
