@@ -4,6 +4,7 @@
   scroll-margin-top: var(--header-height, 137px);
   color: var(--color-ink, #103f5d);
   background: var(--color-background, #e7f4fb);
+  overflow-wrap: anywhere;
 }
 
 .inner {
@@ -49,6 +50,8 @@
 }
 
 .iconBox {
+  display: grid;
+  place-items: center;
   width: var(--icon-size);
   height: var(--icon-size);
   margin-inline: auto;
@@ -57,22 +60,7 @@
   background: var(--color-ink, #103f5d);
 }
 
-.reel {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  transform: translateY(0);
-}
-
-.reelCell {
-  display: grid;
-  place-items: center;
-  flex: 0 0 var(--icon-size);
-  width: var(--icon-size);
-  height: var(--icon-size);
-}
-
-.reelCell img {
+.icon {
   display: block;
   max-width: 75%;
   height: auto;
@@ -113,20 +101,14 @@
   animation: header-reveal 500ms ease-out 100ms both;
 }
 
-.section[data-motion='animated'] .card[data-started='false'] .reel {
-  transform: translateY(calc(-8 * var(--icon-size)));
-}
-
+.section[data-motion='animated'] .card[data-started='false'] .icon,
 .section[data-motion='animated'] .card[data-started='false'] .cardText {
   opacity: 0;
 }
 
-.section[data-motion='animated'] .card[data-started='true'] .reel {
-  animation: reel-settle var(--reel-duration, 1100ms) cubic-bezier(.12, .62, .16, 1) both;
-}
-
+.section[data-motion='animated'] .card[data-started='true'] .icon,
 .section[data-motion='animated'] .card[data-started='true'] .cardText {
-  animation: text-reveal 250ms ease-out var(--reel-duration, 1100ms) both;
+  animation: text-reveal 500ms ease-out var(--reveal-delay, 0ms) both;
 }
 
 @keyframes header-reveal {
@@ -138,11 +120,6 @@
     opacity: 1;
     transform: translateY(0);
   }
-}
-
-@keyframes reel-settle {
-  from { transform: translateY(calc(-8 * var(--icon-size))); }
-  to { transform: translateY(0); }
 }
 
 @keyframes text-reveal {
@@ -208,7 +185,7 @@
 @media (prefers-reduced-motion: reduce) {
   .section[data-motion] .header[data-revealed] .heading,
   .section[data-motion] .header[data-revealed] .introduction,
-  .section[data-motion] .card[data-started] .reel,
+  .section[data-motion] .card[data-started] .icon,
   .section[data-motion] .card[data-started] .cardText {
     animation: none;
     opacity: 1;

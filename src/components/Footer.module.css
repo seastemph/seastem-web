@@ -1,8 +1,13 @@
 .footer {
+  --footer-bottom-space: clamp(24px, 4vw, 64px);
   flex-shrink: 0;
+  padding-bottom: var(--footer-bottom-space);
   overflow: hidden;
   color: var(--color-ink, #103f5d);
-  background: linear-gradient(180deg, #e4f3fb, var(--color-background, #e7f4fb) 70%);
+  /* Continue the cyan at the supplied wordmark's lower edge into the spacing. */
+  background:
+    linear-gradient(180deg, #bfeaff, #c9edfc) bottom / 100% calc(var(--footer-bottom-space) + 1px) no-repeat,
+    linear-gradient(180deg, #e4f3fb, var(--color-background, #e7f4fb) 70%);
 }
 
 .content {

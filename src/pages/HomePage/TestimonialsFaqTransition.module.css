@@ -1,104 +1,22 @@
 .root {
+  padding-top: clamp(40px, 6vw, 80px);
   color: var(--color-ink, #103f5d);
   background: var(--color-background, #e7f4fb);
-  overflow-anchor: none;
 }
-
-.track { position: relative; }
-.stage { display: flex; flex-direction: column; position: relative; padding: 24px 0 64px; }
-.panel { position: relative; min-width: 0; }
-.testimony { order: 1; }
-.faq { order: 3; margin-top: 48px; }
+.faq { margin-top: clamp(64px, 8vw, 120px); }
 .waves {
   position: relative;
-  order: 2;
-  height: clamp(190px, 26vw, 340px);
-  margin-top: 48px;
+  height: clamp(160px, 24vw, 320px);
+  margin-top: clamp(24px, 4vw, 56px);
   overflow: hidden;
   pointer-events: none;
 }
-
-.root[data-mode='flow'][data-motion='animated'] .panel {
-  transition: opacity 400ms ease-out, transform 400ms ease-out;
-}
-.root[data-mode='flow'][data-motion='animated'] .panel[data-revealed='false'] {
+.root[data-motion='animated'] [data-reveal] {
   opacity: 0;
-  transform: translateY(16px);
+  transition: opacity 500ms ease-out;
 }
-.root[data-flow-settled='true'] .panel { transition: none !important; }
-
-.root[data-mode='sticky'] .track { height: calc(var(--story-height) + var(--story-distance)); }
-.root[data-mode='sticky'] .stage {
-  display: block;
-  position: sticky;
-  top: var(--story-top);
-  height: var(--story-height);
-  padding: 0;
-  overflow: clip;
-  isolation: isolate;
-}
-.root[data-mode='sticky'] .panel {
-  position: absolute;
-  inset-inline: 0;
-  z-index: 1;
-  margin: 0;
-  transition: none;
-}
-.root[data-mode='sticky'] .testimony {
-  top: var(--testimony-top);
-  opacity: var(--testimony-opacity, 0);
-  transform: translate3d(0, var(--testimony-y, 100vh), 0);
-}
-.root[data-mode='sticky'] .faq {
-  top: var(--faq-top);
-  opacity: var(--faq-opacity, 0);
-  transform: translate3d(0, var(--faq-y, 100vh), 0);
-}
-.root[data-mode='sticky'] .panel[data-interactive='false'] { pointer-events: none; }
-.root[data-mode='sticky'] .waves {
-  position: absolute;
-  z-index: 2;
-  inset: auto 0 -1px;
-  height: var(--story-wave-height);
-  margin: 0;
-  overflow: visible;
-  transform: scaleY(var(--story-wave-scale, 1));
-  transform-origin: center bottom;
-}
-
-@media (width < 600px) {
-  .stage { padding-top: 16px; padding-bottom: 40px; }
-  .faq, .waves { margin-top: 32px; }
-}
-
-/* Readable immediately when the OS preference changes, before the JS frame. */
+.root[data-motion='animated'] [data-reveal][data-revealed='true'] { opacity: 1; }
+.root [data-reveal][data-focus-revealed='true'] { transition: none; }
 @media (prefers-reduced-motion: reduce) {
-  .root[data-mode] .track { height: auto; }
-  .root[data-mode] .stage {
-    display: flex;
-    position: relative;
-    top: auto;
-    height: auto;
-    padding: 24px 0 64px;
-    overflow: visible;
-  }
-  .root[data-mode] .panel,
-  .root[data-mode='sticky'] .panel[data-interactive='false'],
-  .root[data-mode='flow'][data-motion='animated'] .panel[data-revealed='false'] {
-    position: relative;
-    inset: auto;
-    opacity: 1;
-    transform: none;
-    transition: none;
-    pointer-events: auto;
-  }
-  .root[data-mode] .faq { margin-top: 48px; }
-  .root[data-mode] .waves {
-    position: relative;
-    inset: auto;
-    height: clamp(190px, 26vw, 340px);
-    margin-top: 48px;
-    overflow: hidden;
-    transform: none;
-  }
+  .root[data-motion] [data-reveal] { opacity: 1; transition: none; }
 }

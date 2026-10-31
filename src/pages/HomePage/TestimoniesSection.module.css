@@ -1,5 +1,5 @@
 .section {
-  --testimonial-card-width: 360px;
+  --testimonial-card-width: min(360px, calc(100vw - 32px));
   --testimonial-gap: 20px;
   --testimonial-static-columns: repeat(2, minmax(0, 1fr));
   --testimonial-gutter: 32px;
@@ -8,65 +8,17 @@
   scroll-margin-top: calc(var(--header-height, 137px) + 24px);
 }
 
-.inner {
-  display: flow-root;
-  width: calc(100% - 2 * var(--testimonial-gutter));
-  max-width: var(--content-width, 1240px);
-  margin-inline: auto;
-}
-
+.inner { display: flow-root; width: calc(100% - 2 * var(--testimonial-gutter)); max-width: var(--content-width, 1240px); margin-inline: auto; }
 .header { text-align: center; }
 .section:focus-visible { outline-offset: -4px; }
+.eyebrow { margin: 0 0 14px; font-size: 1rem; font-weight: 400; line-height: 1.4; letter-spacing: .14em; }
+.heading { margin: 0; font-size: clamp(2rem, 3.89vw, 3.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -.015em; text-wrap: balance; }
 
-.eyebrow {
-  margin: 0 0 14px;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.4;
-  letter-spacing: 0.14em;
-}
-
-.heading {
-  margin: 0;
-  font-size: clamp(2rem, 3.89vw, 3.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.015em;
-  text-wrap: balance;
-}
-
-.lanes {
-  display: grid;
-  gap: 16px;
-  min-width: 0;
-  width: 100%;
-  margin-top: 28px;
-}
-
-.lane {
-  min-width: 0;
-  overflow: hidden;
-  padding-block: 3px;
-}
-
-.track {
-  display: flex;
-  width: max-content;
-  animation: travel-left var(--testimonial-duration, 28s) linear infinite;
-  animation-play-state: var(--testimonial-play-state, running);
-}
-
+.lanes { display: grid; align-items: start; gap: 20px; min-width: 0; width: 100%; margin-top: 28px; }
+.lane { min-width: 0; overflow: hidden; padding-block: 6px; }
+.track { display: flex; align-items: flex-start; width: max-content; animation: travel-left var(--testimonial-duration, 28s) linear infinite; animation-play-state: var(--testimonial-play-state, running); }
 .reverse { animation-direction: reverse; }
-
-.group {
-  display: flex;
-  flex: 0 0 auto;
-  align-items: stretch;
-  gap: var(--testimonial-gap);
-  margin: 0;
-  padding: 0 var(--testimonial-gap) 0 0;
-  list-style: none;
-}
+.group { display: flex; flex: 0 0 auto; align-items: flex-start; gap: var(--testimonial-gap); margin: 0; padding: 0 var(--testimonial-gap) 0 0; list-style: none; }
 
 .card {
   flex: 0 0 var(--testimonial-card-width);
@@ -77,119 +29,82 @@
   border-radius: 14px;
   background: var(--color-ink, #103f5d);
   color: #f1f9fd;
-  transition: transform 180ms ease, border-color 180ms ease;
+  transition: border-color 180ms ease;
 }
-
+.card[data-expanded='true'] { border-color: rgb(210 240 252 / 65%); }
 .testimonial { margin: 0; }
-
-.sampleLabel {
+.sampleLabel { display: inline-flex; margin: 0; padding: 2px 6px; border: 1px solid rgb(210 240 252 / 30%); border-radius: 6px; color: #d9f0fa; font-size: .75rem; font-weight: 600; line-height: 1.25; letter-spacing: .025em; }
+.quote { margin: 10px 0; font-size: 1.125rem; font-weight: 400; line-height: 1.35; }
+.quoteViewport {
+  position: relative;
+  height: var(--quote-preview-height, 2.7em);
+  overflow: hidden;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #a7d5e9 #164c6a;
+  transition: height 280ms ease;
+}
+.quoteViewport p { margin: 0; }
+.card[data-overflowing='true'][data-expanded='false'] .quoteViewport::after {
+  content: '…';
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  padding-left: .3em;
+  background: var(--color-ink, #103f5d);
+}
+.card[data-expanded='true'] .quoteViewport { height: var(--quote-expanded-height); }
+.quoteViewport[data-scrollable='true'] { overflow-y: auto; overscroll-behavior-y: contain; }
+.quoteViewport:focus-visible { outline-color: #b9e6f9; outline-offset: -2px; }
+.credit { color: #c2dfed; font-size: .875rem; font-weight: 400; line-height: 1.35; }
+.disclosure {
   display: inline-flex;
-  margin: 0;
-  padding: 2px 6px;
-  border: 1px solid rgb(210 240 252 / 30%);
-  border-radius: 6px;
-  color: #d9f0fa;
-  font-size: 0.75rem;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 2px;
+  padding: 8px 0 0;
+  border: 0;
+  color: #e0f4fc;
+  background: transparent;
+  font-size: .875rem;
   font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: 0.025em;
+  line-height: 1.4;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
 }
+.disclosure:focus-visible { outline-color: #b9e6f9; outline-offset: 3px; border-radius: 2px; }
 
-.quote {
-  margin: 10px 0;
-  font-size: 1.125rem;
-  font-weight: 400;
-  line-height: 1.35;
-}
-
-.quote p { margin: 0; }
-
-.credit {
-  color: #c2dfed;
-  font-size: 0.875rem;
-  font-weight: 400;
-  line-height: 1.35;
-}
-
-/* Measurement runs before enabling either direction, preventing an incomplete
-   first loop while the wider desktop copy groups are being filled. */
 .section[data-ready='false'] .track { animation: none; transform: none; }
 
-/* Reading mode reuses the same four canonical card nodes. Clones remain mounted
-   but do not participate in layout or the accessibility tree. */
-.section[data-reading='true'] .lanes {
-  width: calc(100% - 2 * var(--testimonial-gutter));
-  max-width: var(--content-width, 1240px);
-  margin-inline: auto;
-  grid-template-columns: var(--testimonial-static-columns);
-  gap: 16px 20px;
-}
-
+/* Keyboard reading exposes the same four canonical cards without duplicate stops. */
+.section[data-reading='true'] .lanes { width: calc(100% - 2 * var(--testimonial-gutter)); max-width: var(--content-width, 1240px); margin-inline: auto; grid-template-columns: var(--testimonial-static-columns); gap: 20px; }
 .section[data-reading='true'] .lane,
 .section[data-reading='true'] .track,
-.section[data-reading='true'] .group {
-  display: contents;
-  overflow: visible;
-  transform: none !important;
-}
-
+.section[data-reading='true'] .group { display: contents; overflow: visible; transform: none !important; }
 .section[data-reading='true'] .track { animation-play-state: paused; }
 .section[data-static='true'] .track { animation: none; }
-
 .section[data-reading='true'] .card { flex: none; width: auto; }
 .section[data-reading='true'] .duplicateGroup,
 .section[data-reading='true'] [data-testimonial-clone] { display: none; }
-.section[data-static='true'] .lanes { margin-top: 28px; }
 
-@keyframes travel-left {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(-50%, 0, 0); }
-}
-
+@keyframes travel-left { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
 @media (hover: hover) and (pointer: fine) {
   .lanes:hover .track { animation-play-state: paused; }
-  .card:hover { transform: translateY(-2px); border-color: rgb(210 240 252 / 55%); }
+  .card:hover { border-color: rgb(210 240 252 / 55%); }
 }
-
-/* Apply before the scene measures its fit, so pinning cannot change its size. */
-@media (min-width: 1200px) and (max-height: 849px) {
-  .heading { font-size: 2.5rem; }
-  .eyebrow { margin-bottom: 8px; }
-  .lanes { gap: 12px; margin-top: 24px; }
-  .card { padding: 14px 18px; }
-  .quote { font-size: 1rem; }
-}
-
 @media (width < 600px) {
-  .section {
-    --testimonial-card-width: 280px;
-    --testimonial-static-columns: minmax(0, 1fr);
-    --testimonial-gutter: 24px;
-  }
-  .eyebrow { font-size: 0.875rem; line-height: 1.5; letter-spacing: 0.1em; }
+  .section { --testimonial-card-width: min(280px, calc(100vw - 32px)); --testimonial-static-columns: minmax(0, 1fr); --testimonial-gutter: 24px; }
+  .eyebrow { font-size: .875rem; line-height: 1.5; letter-spacing: .1em; }
   .heading { font-size: 2rem; line-height: 1.15; }
+  .card { padding: 16px 18px; }
+  .quote { font-size: 1rem; line-height: 1.45; }
 }
-
+@media (width < 360px) { .section { --testimonial-gutter: 16px; } }
 @media (prefers-reduced-motion: reduce) {
-  .section .lanes {
-    width: calc(100% - 2 * var(--testimonial-gutter));
-    max-width: var(--content-width, 1240px);
-    margin-inline: auto;
-    grid-template-columns: var(--testimonial-static-columns);
-    gap: 16px 20px;
-    margin-top: 28px;
-  }
-  .section .lane,
-  .section .track,
-  .section .group {
-    display: contents;
-    overflow: visible;
-    animation: none;
-    transform: none;
-  }
+  .section .lanes { width: calc(100% - 2 * var(--testimonial-gutter)); max-width: var(--content-width, 1240px); margin-inline: auto; grid-template-columns: var(--testimonial-static-columns); gap: 20px; }
+  .section .lane, .section .track, .section .group { display: contents; overflow: visible; animation: none; transform: none; }
   .section .card { flex: none; width: auto; }
-  .section .duplicateGroup,
-  .section [data-testimonial-clone] { display: none; }
-  .card,
-  .card:hover { transition: none; transform: none; }
+  .section .duplicateGroup, .section [data-testimonial-clone] { display: none; }
+  .card, .quoteViewport { transition: none; }
 }

@@ -21,7 +21,7 @@ export default function FAQsSection() {
       data-faq-section
     >
       <div className={styles.inner}>
-        <header className={styles.header} data-faq-header>
+        <header className={styles.header} data-faq-header data-reveal>
           <p className={styles.eyebrow}>BEFORE WE SET SAIL</p>
           <h2 id="home-faqs-heading" className={styles.heading}>FREQUENTLY ASKED QUESTIONS</h2>
           <p className={styles.previewLabel}>Preview content — answers pending approval.</p>
@@ -34,7 +34,7 @@ export default function FAQsSection() {
             const answerId = `home-faq-answer-${id}`
 
             return (
-              <li className={styles.item} key={id}>
+              <li className={styles.item} key={id} data-reveal>
                 <h3 className={styles.questionHeading}>
                   <button
                     id={questionId}

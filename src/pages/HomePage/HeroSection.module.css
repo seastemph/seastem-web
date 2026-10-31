@@ -1,5 +1,5 @@
 .hero {
-  --hero-wave-height: clamp(180px, 32svh, 380px);
+  --hero-wave-height: clamp(200px, 36svh, 420px);
   --hero-gap: clamp(16px, 3svh, 32px);
   position: relative;
   isolation: isolate;
@@ -12,6 +12,7 @@
   color: var(--color-ink, #103f5d);
   background: var(--color-background, #e7f4fb);
   text-align: center;
+  overflow-wrap: anywhere;
 }
 
 .content {
@@ -103,7 +104,7 @@
 
 @media (max-width: 1199px) {
   .hero {
-    --hero-wave-height: clamp(180px, 30svh, 320px);
+    --hero-wave-height: clamp(200px, 34svh, 360px);
   }
 
   .eyebrow {
@@ -118,7 +119,7 @@
 
 @media (max-width: 767px) {
   .hero {
-    --hero-wave-height: clamp(160px, 26svh, 250px);
+    --hero-wave-height: clamp(180px, 29svh, 280px);
     --hero-gap: clamp(16px, 2.5svh, 24px);
     padding-top: clamp(24px, 5svh, 64px);
     padding-inline: 24px;

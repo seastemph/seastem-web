@@ -2,7 +2,7 @@
   position: absolute;
   z-index: 0;
   inset: auto 0 -1px;
-  height: var(--hero-wave-height, 380px);
+  height: var(--hero-wave-height, 420px);
   overflow: hidden;
   pointer-events: none;
   user-select: none;
@@ -11,9 +11,9 @@
 .track {
   position: absolute;
   inset: 0 auto auto 0;
-  width: max(200%, 1920px);
+  width: max(240%, 960px);
   height: 100%;
-  animation: flowLeft var(--wave-duration) linear infinite;
+  animation: flow-left 22s linear infinite;
   animation-delay: var(--wave-delay);
   animation-play-state: var(--wave-play-state, running);
 }
@@ -23,41 +23,61 @@
   width: 100%;
   max-width: none;
   height: 100%;
+  transform-origin: 50% 100%;
+  animation: ocean-swell var(--swell-duration) ease-in-out infinite;
+  animation-delay: var(--swell-delay);
+  animation-play-state: var(--wave-play-state, running);
 }
 
+/* Coordinated drift keeps the navy crest visible; independent swells add depth. */
 .back {
-  --wave-duration: 32s;
-  --wave-delay: -8s;
-  --wave-rest-offset: -12.5%;
+  --wave-delay: -13.75s;
+  --wave-rest-offset: -31.25%;
+  --swell-duration: 8s;
+  --swell-delay: -2s;
 }
 
-.middle {
-  --wave-duration: 26s;
-  --wave-delay: -4s;
-  --wave-rest-offset: -7.6923%;
+.white {
+  --wave-delay: -13.475s;
+  --wave-rest-offset: -30.625%;
+  --swell-duration: 10s;
+  --swell-delay: -5s;
+}
+
+.cyan {
+  --wave-delay: -13.2s;
+  --wave-rest-offset: -30%;
+  --swell-duration: 12s;
+  --swell-delay: -8s;
 }
 
 .front {
-  --wave-duration: 22s;
-  --wave-delay: -9s;
-  --wave-rest-offset: -20.4545%;
+  --wave-delay: -12.925s;
+  --wave-rest-offset: -29.375%;
+  --swell-duration: 14s;
+  --swell-delay: -11s;
 }
 
-/* A track contains two identical periods; half its width is one seamless loop. */
-@keyframes flowLeft {
+/* Half the track is exactly one period; the repeat has matching tangents. */
+@keyframes flow-left {
   from { transform: translate3d(0, 0, 0); }
   to { transform: translate3d(-50%, 0, 0); }
 }
 
-@media (max-width: 767px) {
-  .back { --wave-duration: 48s; --wave-delay: -12s; }
-  .middle { --wave-duration: 39s; --wave-delay: -6s; }
-  .front { --wave-duration: 33s; --wave-delay: -13.5s; }
+/* Anchor the swell at the seabed so it never exposes a gap along the bottom. */
+@keyframes ocean-swell {
+  0%, 100% { transform: scaleY(0.94); }
+  50% { transform: scaleY(1.06); }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .track {
     animation: none;
     transform: translate3d(var(--wave-rest-offset), 0, 0);
+  }
+
+  .track svg {
+    animation: none;
+    transform: none;
   }
 }

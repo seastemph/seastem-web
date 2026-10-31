@@ -36,11 +36,6 @@ const approaches = [
   },
 ]
 
-// The first and last cells match. Moving from cell eight to zero rolls downward.
-const reels = approaches.map((_, index) =>
-  Array.from({ length: 9 }, (_, slot) => approaches[(index + slot) % approaches.length]),
-)
-
 function needsStaticPresentation() {
   return typeof window === 'undefined'
     || typeof window.IntersectionObserver !== 'function'
@@ -54,7 +49,7 @@ export default function OurApproachSection() {
   const startedRef = useRef(new Set())
   const [staticMotion, setStaticMotion] = useState(needsStaticPresentation)
   const [headingRevealed, setHeadingRevealed] = useState(false)
-  const [durations, setDurations] = useState({})
+  const [delays, setDelays] = useState({})
 
   useEffect(() => {
     if (staticMotion) return
@@ -74,7 +69,7 @@ export default function OurApproachSection() {
 
     function observeRows() {
       rowObserver?.disconnect()
-      // These match the CSS grid breakpoints. Card keys and captured durations stay
+      // These match the CSS grid breakpoints. Card keys and captured delays stay
       // unchanged on resize, so moving a card to another row never restarts it.
       const columns = desktop.matches ? 4 : tablet.matches ? 2 : 1
       const rowStarts = new Map()
@@ -91,13 +86,13 @@ export default function OurApproachSection() {
             if (!approach || startedRef.current.has(approach.id)) continue
 
             startedRef.current.add(approach.id)
-            newlyStarted[approach.id] = 1100 + offset * 300
+            newlyStarted[approach.id] = offset * 150
           }
           observer.unobserve(entry.target)
         }
 
         if (Object.keys(newlyStarted).length > 0) {
-          setDurations(previous => ({ ...previous, ...newlyStarted }))
+          setDelays(previous => ({ ...previous, ...newlyStarted }))
         }
       }, { threshold: 0.5, rootMargin: '0px 0px -64px 0px' })
 
@@ -152,27 +147,22 @@ export default function OurApproachSection() {
               key={approach.id}
               className={styles.card}
               data-approach={approach.id}
-              data-started={durations[approach.id] !== undefined}
-              style={{ '--reel-duration': `${durations[approach.id] ?? 1100}ms` }}
+              data-started={delays[approach.id] !== undefined}
+              style={{ '--reveal-delay': `${delays[approach.id] ?? 0}ms` }}
             >
               <div
                 ref={element => { iconRefs.current[index] = element }}
                 className={styles.iconBox}
                 aria-hidden="true"
               >
-                <div className={styles.reel}>
-                  {reels[index].map((icon, slot) => (
-                    <div className={styles.reelCell} key={slot}>
-                      <img
-                        src={icon.icon}
-                        width={icon.iconSize}
-                        height={icon.iconSize}
-                        alt=""
-                        draggable="false"
-                      />
-                    </div>
-                  ))}
-                </div>
+                <img
+                  className={styles.icon}
+                  src={approach.icon}
+                  width={approach.iconSize}
+                  height={approach.iconSize}
+                  alt=""
+                  draggable="false"
+                />
               </div>
               <div className={styles.cardText}>
                 <h3 className={styles.title}>{approach.title}</h3>
